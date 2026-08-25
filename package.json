@@ -1,0 +1,19 @@
+{
+  "name": "lu-mama-bot",
+  "version": "1.0.0",
+  "description": "盧媽媽鬼抓人 + 台中購物節倒數計時 Discord Bot",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "deploy": "node deploy-commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
