@@ -21,13 +21,7 @@ function sleep(ms) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('盧媽媽鬼抓人')
-    .setDescription('盧媽媽決定抓一位群內用戶向她獻祭')
-    .addUserOption((option) =>
-      option
-        .setName('target_user')
-        .setDescription('指定要獻祭的對象（留空則隨機抓一位群內成員）')
-        .setRequired(false)
-    ),
+    .setDescription('盧媽媽決定抓一位群內用戶向她獻祭'),
 
   async execute(interaction) {
     if (!interaction.inGuild()) {
@@ -46,17 +40,8 @@ module.exports = {
       await interaction.editReply(THINKING_TEXT + '。'.repeat(i));
     }
 
-    // 決定獻祭對象
-    const specifiedUser = interaction.options.getUser('target_user');
-    let targetMember;
-
-    if (specifiedUser) {
-      targetMember = await interaction.guild.members
-        .fetch(specifiedUser.id)
-        .catch(() => null);
-    } else {
-      targetMember = await pickRandomMember(interaction);
-    }
+    // 從伺服器的非 Bot 成員中隨機挑選獻祭對象。
+    const targetMember = await pickRandomMember(interaction);
 
     if (!targetMember) {
       await interaction.editReply('盧媽媽找不到可以獻祭的對象，只好先放過大家了。');

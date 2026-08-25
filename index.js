@@ -7,7 +7,7 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers, // 抓成員清單以隨機挑選獻祭對象時需要
+    GatewayIntentBits.GuildMembers, // 讀取成員清單以隨機挑選對象
   ],
 });
 
