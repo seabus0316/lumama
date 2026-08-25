@@ -11,8 +11,8 @@ const SACRIFICE_IMAGE_FILENAME = 'sacrifice.webp';
 
 // 思考中訊息的點點動畫設定
 const THINKING_TEXT = '盧媽媽正在思考該抓誰向自己獻祭';
-const THINKING_STEPS = 5; // 點點總共增加幾次
-const THINKING_INTERVAL_MS = 600; // 每次增加的間隔（毫秒）
+const THINKING_STEPS = 7; // 點點總共增加幾次
+const THINKING_INTERVAL_MS = 1000; // 每次增加的間隔（毫秒）
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
