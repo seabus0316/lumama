@@ -21,7 +21,13 @@ function sleep(ms) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('盧媽媽鬼抓人')
-    .setDescription('盧媽媽決定抓一位群內用戶向她獻祭'),
+    .setDescription('盧媽媽決定抓一位群內用戶向她獻祭')
+    .addUserOption((option) =>
+      option
+        .setName('目標')
+        .setDescription('指定要獻祭的成員（選填，留空則隨機抽選）')
+        .setRequired(false)
+    ),
 
   async execute(interaction) {
     if (!interaction.inGuild()) {
@@ -32,6 +38,9 @@ module.exports = {
       return;
     }
 
+    // 取得指令輸入的指定對象（若有）
+    const specifiedUser = interaction.options.getUser('目標');
+
     // 先送出「思考中」訊息，之後用 editReply 做出點點越來越多的動畫
     await interaction.reply(THINKING_TEXT);
 
@@ -40,15 +49,19 @@ module.exports = {
       await interaction.editReply(THINKING_TEXT + '。'.repeat(i));
     }
 
-    // 從伺服器的非 Bot 成員中隨機挑選獻祭對象。
-    const targetMember = await pickRandomMember(interaction);
+    let targetUser = specifiedUser;
 
-    if (!targetMember) {
-      await interaction.editReply('盧媽媽找不到可以獻祭的對象，只好先放過大家了。');
-      return;
+    // 若未指定目標，才從伺服器的非 Bot 成員中隨機挑選獻祭對象
+    if (!targetUser) {
+      const targetMember = await pickRandomMember(interaction);
+
+      if (!targetMember) {
+        await interaction.editReply('盧媽媽找不到可以獻祭的對象，只好先放過大家了。');
+        return;
+      }
+
+      targetUser = targetMember.user;
     }
-
-    const targetUser = targetMember.user;
 
     const embed = new EmbedBuilder()
       .setColor(0x8b0000)
